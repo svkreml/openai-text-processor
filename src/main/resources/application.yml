@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  ai:
+    openai:
+      base-url: http://localhost:1234
+      api-key: NOT_REQUIRED
+      model: ""
+
+
+# Logging configuration
+logging:
+  level:
+    com.example.openaitextprocessor: INFO

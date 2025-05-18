@@ -1,0 +1,5 @@
+###
+POST http://localhost:8080/chatclient
+Content-Type: application/json
+
+"Hello"
