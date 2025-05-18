@@ -10,6 +10,19 @@ Content-Type: application/json
 
 "My name is John"
 
+###
+POST http://localhost:8080/chatclient
+Content-Type: application/json
+
+"Меня зовут Иван"
+
+
+###
+POST http://localhost:8080/chatclient
+Content-Type: application/json
+
+"У меня есть новое домашнее животное, зовут Барсик"
+
 
 ###
 POST http://localhost:8080/chatclient
@@ -74,7 +87,7 @@ Content-Type: application/json
 POST http://localhost:8080/chatclient
 Content-Type: application/json
 
-"Add  new Pet to the database under name John, pet name is Firefly "
+"Add new Pet to the database under name John, pet name is Firefly"
 
 ###
 POST http://localhost:8080/chatclient

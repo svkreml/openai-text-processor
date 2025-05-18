@@ -45,7 +45,7 @@ public class OpenAIConfig {
         return builder
                 .defaultSystem(PROMPT)
                 .defaultAdvisors(
-                        new MessageChatMemoryAdvisor(chatMemory, DEFAULT_CHAT_MEMORY_CONVERSATION_ID, 5)
+                        new MessageChatMemoryAdvisor(chatMemory, DEFAULT_CHAT_MEMORY_CONVERSATION_ID, 10)
 //                        new SimpleLoggerAdvisor()
                 )
                 .defaultTools("listOwners", "addNewPet", "getPetsByOwner")

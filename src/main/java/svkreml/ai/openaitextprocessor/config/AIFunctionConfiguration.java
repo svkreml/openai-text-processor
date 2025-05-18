@@ -19,8 +19,8 @@ class AIFunctionConfiguration {
     Map<Owner, List<Pet>> petsByOwner = new HashMap<>();
 
     public AIFunctionConfiguration() {
-        this.petsByOwner.put(new Owner("Maria"), List.of(new Pet("Lapka")));
-        this.petsByOwner.put(new Owner("Ivan"), List.of(new Pet("Copka"), new Pet("Mike")));
+        this.petsByOwner.put(new Owner("Maria"),  new ArrayList<>(List.of(new Pet("Lapka"))));
+        this.petsByOwner.put(new Owner("Ivan"), new ArrayList<>(List.of(new Pet("Copka"), new Pet("Mike"))));
     }
 
     // @Tool(name = "listOwners", description = "List the owners that the pet clinic has")
