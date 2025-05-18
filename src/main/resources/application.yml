@@ -10,8 +10,6 @@ spring:
     openai:
       base-url: http://localhost:1234
       api-key: NOT_REQUIRED
-      model: ""
-
 
 # Logging configuration
 logging:
