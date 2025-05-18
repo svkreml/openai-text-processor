@@ -3,3 +3,87 @@ POST http://localhost:8080/chatclient
 Content-Type: application/json
 
 "Hello"
+
+###
+POST http://localhost:8080/chatclient
+Content-Type: application/json
+
+"My name is John"
+
+
+###
+POST http://localhost:8080/chatclient
+Content-Type: application/json
+
+"What is my name?"
+
+
+###
+POST http://localhost:8080/chatclient
+Content-Type: application/json
+
+"Tell me about stars"
+
+###
+POST http://localhost:8080/chatclient
+Content-Type: application/json
+
+"Tell me all owners"
+###
+
+
+POST http://localhost:8080/chatclient
+Content-Type: application/json
+
+"Tell me all pets names from all owners, group them by owners"
+
+
+###
+POST http://localhost:8080/chatclient
+Content-Type: application/json
+
+"Yes"
+
+###
+POST http://localhost:8080/chatclient
+Content-Type: application/json
+
+"Tell me all pets names"
+
+
+###
+POST http://localhost:8080/chatclient
+Content-Type: application/json
+
+"Add my new Pet to the database, pet name is Fluffy, my name is Jack"
+###
+POST http://localhost:8080/chatclient
+Content-Type: application/json
+
+"Add my new Pet to the database, pet name is Fluffy the Second, my name is Jack"
+
+
+###
+POST http://localhost:8080/chatclient
+Content-Type: application/json
+
+"Add my new Pet to the database, pet name is Fluffy"
+
+
+###
+POST http://localhost:8080/chatclient
+Content-Type: application/json
+
+"Add  new Pet to the database under name John, pet name is Firefly "
+
+###
+POST http://localhost:8080/chatclient
+Content-Type: application/json
+
+"List pets of Ivan"
+
+###
+POST http://localhost:8080/chatclient
+Content-Type: application/json
+
+"List pets of John"

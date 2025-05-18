@@ -16,4 +16,10 @@ spring:
 # Logging configuration
 logging:
   level:
-    com.example.openaitextprocessor: INFO
+    com.example.openaitextprocessor: DEBUG
+    org:
+      springframework:
+        ai:
+          chat:
+            client:
+              advisor: INFO
