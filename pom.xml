@@ -15,7 +15,7 @@
     <description>Spring Boot app for processing text with OpenAI</description>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <retrofit.version>2.9.0</retrofit.version>
     </properties>
 
@@ -38,6 +38,10 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -53,6 +57,26 @@
                         </exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+
+            <!--Плагин для обновления версий всех зависимостей и исходного кода-->
+            <plugin>
+                <groupId>org.openrewrite.maven</groupId>
+                <artifactId>rewrite-maven-plugin</artifactId>
+                <version>6.8.0</version>
+                <configuration>
+                    <exportDatatables>true</exportDatatables>
+                    <activeRecipes>
+                        <recipe>org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_4</recipe>
+                    </activeRecipes>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.openrewrite.recipe</groupId>
+                        <artifactId>rewrite-spring</artifactId>
+                        <version>6.7.0</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

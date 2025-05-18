@@ -1,4 +1,6 @@
 package svkreml.ai.openaitextprocessor.dto;
 
-public record Owner(String name) {
+import org.springframework.lang.NonNull;
+
+public record Owner(@NonNull String name) {
 }

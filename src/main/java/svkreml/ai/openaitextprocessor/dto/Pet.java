@@ -1,4 +1,6 @@
 package svkreml.ai.openaitextprocessor.dto;
 
-public record Pet(String name) {
+import org.springframework.lang.NonNull;
+
+public record Pet(@NonNull String name) {
 }

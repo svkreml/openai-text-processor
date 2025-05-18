@@ -1,4 +1,9 @@
 package svkreml.ai.openaitextprocessor.dto;
 
-public record PetAndHisOwner(Pet pet, Owner owner) {
+import org.springframework.lang.NonNull;
+
+public record PetAndHisOwner(
+        @NonNull Pet pet,
+        @NonNull Owner owner
+) {
 }

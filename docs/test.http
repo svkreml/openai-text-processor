@@ -73,7 +73,7 @@ Content-Type: application/json
 POST http://localhost:8080/chatclient
 Content-Type: application/json
 
-"Add my new Pet to the database, pet name is Fluffy the Second, my name is Jack"
+"Add my new Pet to the database, pet name is Fluffy the Second"
 
 
 ###

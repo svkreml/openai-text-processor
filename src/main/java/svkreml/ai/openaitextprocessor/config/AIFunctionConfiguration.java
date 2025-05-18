@@ -19,14 +19,14 @@ class AIFunctionConfiguration {
     Map<Owner, List<Pet>> petsByOwner = new HashMap<>();
 
     public AIFunctionConfiguration() {
-        this.petsByOwner.put(new Owner("Maria"),  new ArrayList<>(List.of(new Pet("Lapka"))));
+        this.petsByOwner.put(new Owner("Maria"), new ArrayList<>(List.of(new Pet("Lapka"))));
         this.petsByOwner.put(new Owner("Ivan"), new ArrayList<>(List.of(new Pet("Copka"), new Pet("Mike"))));
     }
 
-    // @Tool(name = "listOwners", description = "List the owners that the pet clinic has")
+    // @Tool почему-то не работает
+//     @Tool(name = "listOwners", description = "List the owners that the pet clinic has")
     @Description("List the owners that the pet clinic has")
     @Bean
-
     public Function<Void, Owners> listOwners() {
         return request -> {
             List<Owner> owners = petsByOwner.keySet().stream().toList();
@@ -35,8 +35,8 @@ class AIFunctionConfiguration {
         };
     }
 
-    // @Tool(name = "addNewPet", description = "Add pet to the database")
-    @Description("Add pet to the database")
+    //     @Tool(name = "addNewPet", description = "Add pet to the database")
+    @Description("Add Pet to the database, if Owner do not exist it will be created automatically")
     @Bean
     public Function<PetAndHisOwner, PetAndHisOwner> addNewPet() {
         return request -> {
@@ -48,14 +48,13 @@ class AIFunctionConfiguration {
         };
     }
 
-    //  @Tool(name = "getPetsByOwner", description = "Get pets by owner")
+    //      @Tool(name = "getPetsByOwner", description = "Get pets by owner")
     @Description("Get pets by owner")
     @Bean
     public Function<Owner, Pets> getPetsByOwner() {
         return request -> {
-            Owner owner = request;
-            List<Pet> pets = petsByOwner.getOrDefault(owner, List.of());
-            log.info("getPetsByOwner: {}, owner: {}", pets, owner);
+            List<Pet> pets = petsByOwner.getOrDefault(request, List.of());
+            log.info("getPetsByOwner: {}, owner: {}", pets, request);
             return new Pets(pets);
         };
     }
