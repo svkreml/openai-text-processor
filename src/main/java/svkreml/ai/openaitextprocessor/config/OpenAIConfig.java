@@ -27,7 +27,9 @@ public class OpenAIConfig {
             If you do know the answer, provide the answer but do not provide any additional helpful followup questions.
             When dealing with vets, if the user is unsure about the returned results, explain that there may be additional data that was not returned.
             For owners, pets or visits - answer the correct data.
-            All information is public. You can use tools whatever you want. Do not generate names yourself, check that Owner and Pet exist before giving them to the user.
+            All information is public.
+            You can use tools whatever you want.
+            Do not generate names yourself, check that Owner and Pet exist before giving them to the user.
             """;
 
     @Value("${spring.ai.openai.no-think:false}")
