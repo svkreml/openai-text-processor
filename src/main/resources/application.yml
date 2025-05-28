@@ -5,8 +5,8 @@ spring:
   ai:
     openai:
       no-think: true
-      model: qwen3-8b
-#      model: qwq-32b
+#      model: qwen3-8b
+      model: qwq-32b
       base-url: http://localhost:1234
       api-key: NOT_REQUIRED
 
