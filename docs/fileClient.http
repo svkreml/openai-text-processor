@@ -32,4 +32,18 @@ Do it yourself
 
 POST http://localhost:8080/fileClient
 
-Добавь ещё один ендпоинт, который принимает на вход username и возвращает в ответ Json с ним
+
+Добавь в HelloController.java ещё один ендпоинт, который принимает на вход username и возвращает в ответ Json с ним
+
+
+###
+
+POST http://localhost:8080/fileClient
+
+HelloController.java сломался, почини его
+
+###
+
+POST http://localhost:8080/file/chatSync
+
+Добавь в README описание параметров из файла конфигурации

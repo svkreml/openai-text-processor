@@ -1,5 +1,6 @@
 package svkreml.ai.openaitextprocessor.config.functions;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Description;
@@ -11,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.function.Function;
 
 
+@Slf4j
 @Description("""
         Reads text file content within secured base directory. 
         Input: Relative path (baseDir: ${file.base.dir:-./}). 
@@ -33,9 +35,10 @@ public class FileReader implements Function<FileReader.InputPath, FileReader.Con
         String relativePath = inputPath.path();
         try {
             Path resolvedPath = resolveSecurePath(relativePath);
-            return new Content(Files.readString(resolvedPath));
+            log.info("Resolved path: {}", resolvedPath);
+            return new Content(Files.readString(resolvedPath), null);
         } catch (Exception e) {
-            throw new RuntimeException("File read error: " + e.getMessage(), e);
+            return new Content(null, "%s: %s".formatted(e.getClass(), e.getMessage()));
         }
     }
 
@@ -49,5 +52,5 @@ public class FileReader implements Function<FileReader.InputPath, FileReader.Con
     }
 
     public record InputPath(String path) {}
-    public record Content(String text) {}
+    public record Content(String text, String error) {}
 }

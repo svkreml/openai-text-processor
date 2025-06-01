@@ -1,27 +1,27 @@
+/*
 package svkreml.ai.openaitextprocessor.controller;
 
 
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-
-public class TextProcessorController {
+@Slf4j
+@RestController()
+@RequestMapping("/pet")
+public class PetClinicController {
 
     private final ChatClient chatClient;
 
-    private final ChatClient fileClient;
-
-    public TextProcessorController( @Qualifier("chatClient") ChatClient chatClient, @Qualifier("fileClient") ChatClient fileClient) {
+    public PetClinicController(@Qualifier("chatClient") ChatClient chatClient) {
         this.chatClient = chatClient;
-        this.fileClient = fileClient;
     }
 
-    @PostMapping("/chatClient")
+    @PostMapping("/chat")
     public String chatClient(@RequestBody String query) {
         return
                 this.chatClient
@@ -35,17 +35,5 @@ public class TextProcessorController {
     }
 
 
-    @PostMapping("/fileClient")
-    public String fileClient(@RequestBody String query) {
-        return
-                this.fileClient
-                        .prompt()
-                        .user(
-                                u ->
-                                        u.text(query)
-                        )
-                        .call()
-                        .content();
-    }
 
-}
+}*/
