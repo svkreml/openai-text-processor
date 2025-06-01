@@ -1,3 +1,4 @@
+/*
 package svkreml.ai.openaitextprocessor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +30,16 @@ import java.util.stream.Collectors;
 public class KeycloakPropertiesTranslator implements ApplicationRunner {
 
 
-    public static final String SEPARATOR = "%%%";
 
 
+
+//        public static final String enPropsPath = "/home/svkreml/IdeaProjects/dit/dit-id/keycloak/js/apps/account-ui/maven-resources/theme/keycloak.v3/account/messages/messages_en.properties";
+//        public static final String ruPropsPath = "/home/svkreml/IdeaProjects/dit/dit-id/keycloak/js/apps/account-ui/maven-resources-community/theme/keycloak.v3/account/messages/messages_ru.properties";
+//
+
+
+    public static final String enPropsPath = "/home/svkreml/IdeaProjects/dit/dit-id/keycloak/js/apps/admin-ui/maven-resources/theme/keycloak.v2/admin/messages/messages_en.properties";
+    public static final String ruPropsPath = "messages_ru_lib.properties";
 
     public static final String ruResultPropsPath = "messages_ru_new.properties";
     public static final String dictPropsPath = "messages_ru_dict.properties";
@@ -112,6 +120,13 @@ public class KeycloakPropertiesTranslator implements ApplicationRunner {
         return s != null && s.chars().anyMatch(c -> c >= 0x4E00 && c <= 0x9FFF);
     }
 
+    public static boolean containsKorean(String input) {
+        return input.matches(".*[\\uAC00-\\uD7AF\\u1100-\\u11FF\\u3130-\\u318F\\uA960-\\uA97F\\uD7B0-\\uD7FF\\u4E00-\\u9FFF].*");
+    }
+    public static boolean containsJapanese(String input) {
+        return input.matches(".*[\\u3040-\\u309F\\u30A0-\\u30FF\\u4E00-\\u9FFF\\u3400-\\u4DBF\\uD840-\\uD87F\\uDC00-\\uDFFF].*");
+    }
+
     public static boolean doNotContainsRussian(String s) {
         s = removeBlocks(s).trim();
         return s != null && s.contains(" ") && s.chars().noneMatch(c -> c >= 0x0400 && c <= 0x04FF);
@@ -156,6 +171,8 @@ public class KeycloakPropertiesTranslator implements ApplicationRunner {
                             StringUtils.isAllBlank(translatedValue)
                             || haveWrongBlocks(translatedValue, enProperties.get(key).toString())
                             || containsChinese(translatedValue)
+                            || containsKorean(translatedValue)
+                            || containsJapanese(translatedValue)
                             || containsNewLines(translatedValue)
                                     //   || doNotContainsRussian(translatedValue)
                             || "null".equals(translatedValue)
@@ -201,4 +218,4 @@ public class KeycloakPropertiesTranslator implements ApplicationRunner {
         return translated;
     }
 
-}
+}*/

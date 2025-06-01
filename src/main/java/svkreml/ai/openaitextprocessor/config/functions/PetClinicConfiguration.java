@@ -1,4 +1,4 @@
-package svkreml.ai.openaitextprocessor.config;
+package svkreml.ai.openaitextprocessor.config.functions;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -12,10 +12,10 @@ import java.util.function.Function;
 
 @Slf4j
 @Configuration
-class AIFunctionConfiguration {
+class PetClinicConfiguration {
     Map<Owner, Set<Pet>> petsByOwner = new HashMap<>();
 
-    public AIFunctionConfiguration() {
+    public PetClinicConfiguration() {
         this.petsByOwner.put(new Owner("Maria"), new LinkedHashSet<>(List.of(new Pet("Lapka"))));
         this.petsByOwner.put(new Owner("Ivan"), new LinkedHashSet<>(List.of(new Pet("Copka"), new Pet("Mike"))));
     }

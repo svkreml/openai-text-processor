@@ -1,0 +1,35 @@
+
+###
+POST http://localhost:8080/fileClient
+
+"Write content of root folder"
+
+
+###
+POST http://localhost:8080/fileClient
+
+tell me content of pom file
+###
+
+
+POST http://localhost:8080/fileClient
+
+Create Hello World Spring project
+
+###
+
+POST http://localhost:8080/fileClient
+
+Port 8080 was already in use. Change port of the app
+
+
+###
+
+POST http://localhost:8080/fileClient
+
+Do it yourself
+###
+
+POST http://localhost:8080/fileClient
+
+Добавь ещё один ендпоинт, который принимает на вход username и возвращает в ответ Json с ним
