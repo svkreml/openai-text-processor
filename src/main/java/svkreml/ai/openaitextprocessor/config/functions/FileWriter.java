@@ -25,7 +25,7 @@ Examples:
 """)
 
 @Component("fileWriter")
-public class FileWriter implements Function<FileWriter.FileWriteRequest, FileWriter.WriteResult> {
+public class FileWriter implements Function<FileWriter.FileWriteRequest, FileWriter.WriteResult> , AiTool{
     private final Path basePath;
 
     public enum WriteOperation {

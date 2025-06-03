@@ -22,7 +22,7 @@ import java.util.function.Function;
         Example: 'docs/notes.txt' → file content
         """)
 @Component("fileReader")
-public class FileReader implements Function<FileReader.InputPath, FileReader.Content> {
+public class FileReader implements Function<FileReader.InputPath, FileReader.Content>, AiTool {
     private final Path basePath;
 
     @Autowired

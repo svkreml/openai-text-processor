@@ -1,6 +1,9 @@
 package svkreml.ai.openaitextprocessor.config.functions;
 
+import org.springframework.ai.openai.api.OpenAiApi;
+import org.springframework.ai.tool.ToolCallback;
 import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.function.FunctionToolCallback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Description;
@@ -30,7 +33,7 @@ Examples:
   Tree: ('src', true) → full recursive tree of src/
 """)
 @Component("directoryLister")
-public class DirectoryLister implements Function<DirectoryLister.InputParams, DirectoryLister.DirectoryListing> {
+public class DirectoryLister implements Function<DirectoryLister.InputParams, DirectoryLister.DirectoryListing>, AiTool {
     private static final Logger log = LoggerFactory.getLogger(DirectoryLister.class);
     private final Path basePath;
     private final int maxDepth;

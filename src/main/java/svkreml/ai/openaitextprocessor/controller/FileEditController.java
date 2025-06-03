@@ -3,7 +3,6 @@ package svkreml.ai.openaitextprocessor.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
@@ -39,7 +38,11 @@ public class FileEditController {
     }
 
     private static ServerSentEvent<String> getSentEvent(String content) {
-        return ServerSentEvent.builder(content).build();
+        return ServerSentEvent.builder(content
+                .replace("\n", "\\n")
+                .replace("\t", "\\t")
+                .replace("\r", "\\r")
+        ).build();
     }
 
 

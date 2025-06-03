@@ -1,19 +1,11 @@
 package svkreml.ai.openaitextprocessor.config;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
-import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.chat.memory.ChatMemoryRepository;
 import org.springframework.ai.chat.memory.InMemoryChatMemoryRepository;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
-import org.springframework.ai.chat.model.ChatModel;
-import org.springframework.ai.chat.prompt.ChatOptions;
-import org.springframework.ai.model.tool.DefaultToolCallingChatOptions;
 import org.springframework.ai.model.tool.ToolCallingChatOptions;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.api.OpenAiApi;
@@ -26,6 +18,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import svkreml.ai.openaitextprocessor.config.functions.DirectoryLister;
 import svkreml.ai.openaitextprocessor.config.functions.FileReader;
 import svkreml.ai.openaitextprocessor.config.functions.FileWriter;
+import svkreml.ai.openaitextprocessor.config.functions.TextSearch;
 
 import java.time.temporal.ChronoUnit;
 
@@ -68,17 +61,19 @@ public class OpenAIConfig {
 
     @Bean("fileClient")
     public ChatClient fileClient(
-                                 FileWriter fileWriter,
-                                 FileReader fileReader,
-                                 DirectoryLister directoryLister) {
+            FileWriter fileWriter,
+            FileReader fileReader,
+            TextSearch textSearch,
+            DirectoryLister directoryLister) {
         MessageWindowChatMemory chatMemory = MessageWindowChatMemory.builder().chatMemoryRepository(new InMemoryChatMemoryRepository()).build();
 
         ToolCallingChatOptions chatOptions = ToolCallingChatOptions.builder()
                 .model(model)
                 .temperature(0.6)
-               // .toolNames("fileWriter", "fileReader", "directoryLister")
                 .maxTokens(32000)
                 .build();
+
+
         return ChatClient.builder(OpenAiChatModel.builder()
                         .openAiApi(
                                 OpenAiApi.builder()
@@ -108,6 +103,7 @@ public class OpenAIConfig {
                 .defaultToolCallbacks(
                         FunctionToolCallback.builder("fileWriter", fileWriter).inputType(FileWriter.FileWriteRequest.class).build(),
                         FunctionToolCallback.builder("fileReader", fileReader).inputType(FileReader.InputPath.class).build(),
+                        FunctionToolCallback.builder("textSearch", textSearch).inputType(TextSearch.SearchRequest.class).build(),
                         FunctionToolCallback.builder("directoryLister", directoryLister).inputType(DirectoryLister.InputParams.class).build()
                 )
                 .build();
