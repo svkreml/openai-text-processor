@@ -14,11 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestClientCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Description;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import svkreml.ai.openaitextprocessor.config.functions.DirectoryLister;
-import svkreml.ai.openaitextprocessor.config.functions.FileReader;
-import svkreml.ai.openaitextprocessor.config.functions.FileWriter;
-import svkreml.ai.openaitextprocessor.config.functions.TextSearch;
+import svkreml.ai.openaitextprocessor.functions.*;
 
 import java.time.temporal.ChronoUnit;
 
@@ -64,8 +62,9 @@ public class OpenAIConfig {
             FileWriter fileWriter,
             FileReader fileReader,
             TextSearch textSearch,
+            FileSearcher fileSearcher,
             DirectoryLister directoryLister) {
-        MessageWindowChatMemory chatMemory = MessageWindowChatMemory.builder().chatMemoryRepository(new InMemoryChatMemoryRepository()).build();
+        MessageWindowChatMemory chatMemory = MessageWindowChatMemory.builder().maxMessages(20).chatMemoryRepository(new InMemoryChatMemoryRepository()).build();
 
         ToolCallingChatOptions chatOptions = ToolCallingChatOptions.builder()
                 .model(model)
@@ -93,7 +92,8 @@ public class OpenAIConfig {
                            - Contextual relationships
                         2. If user ask you to write, edit or repair some file you need to call fileWriter to edit file.
                         3. Do not broke previous file content: i.e. if it wat java class do not delete package and imports.
-                        4. If a user asks you about some files or projects, it is assumed that they are located relative to "." so you should call directoryLister to try to understand the context of the question.
+                        4. If a user asks you about some files or projects, it is assumed that they are located relative to "." so you should call tools to try to understand the context of the question.
+                        5. Never try to invent or guess the contents of files.
                         """)
                 .defaultOptions(chatOptions)
                 .defaultAdvisors(
@@ -101,10 +101,11 @@ public class OpenAIConfig {
                         new SimpleLoggerAdvisor()
                 )
                 .defaultToolCallbacks(
-                        FunctionToolCallback.builder("fileWriter", fileWriter).inputType(FileWriter.FileWriteRequest.class).build(),
-                        FunctionToolCallback.builder("fileReader", fileReader).inputType(FileReader.InputPath.class).build(),
-                        FunctionToolCallback.builder("textSearch", textSearch).inputType(TextSearch.SearchRequest.class).build(),
-                        FunctionToolCallback.builder("directoryLister", directoryLister).inputType(DirectoryLister.InputParams.class).build()
+                        FunctionToolCallback.builder("fileWriter", fileWriter).description(fileWriter.getClass().getAnnotation(Description.class).value()).inputType(FileWriter.FileWriteRequest.class).build(),
+                        FunctionToolCallback.builder("fileReader", fileReader).description(fileReader.getClass().getAnnotation(Description.class).value()).inputType(FileReader.InputPath.class).build(),
+                        FunctionToolCallback.builder("textSearch", textSearch).description(textSearch.getClass().getAnnotation(Description.class).value()).inputType(TextSearch.SearchRequest.class).build(),
+                        FunctionToolCallback.builder("fileSearcher", fileSearcher).description(fileSearcher.getClass().getAnnotation(Description.class).value()).inputType(FileSearcher.SearchPattern.class).build(),
+                        FunctionToolCallback.builder("directoryLister", directoryLister).description(directoryLister.getClass().getAnnotation(Description.class).value()).inputType(DirectoryLister.InputParams.class).build()
                 )
                 .build();
     }

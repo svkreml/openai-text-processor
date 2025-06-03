@@ -6,14 +6,12 @@ spring:
     openai:
       no-think: false
 #      model: qwen3-8b
-#      model: qwq-32b
-      model: qwen/qwen3-30b-a3b
+      model: qwq-32b
+#      model: qwen/qwen3-30b-a3b
       base-url: http://127.0.0.1:1234
       api-key: NOT_REQUIRED
 
 logging:
-  level:
-    com.example.openaitextprocessor: DEBUG
     org:
       springframework:
         ai:
@@ -22,4 +20,4 @@ logging:
               advisor: INFO
 file:
   base:
-    dir: ./test/
+    dir: ./

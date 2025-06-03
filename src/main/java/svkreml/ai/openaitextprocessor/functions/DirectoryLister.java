@@ -1,9 +1,8 @@
-package svkreml.ai.openaitextprocessor.config.functions;
+package svkreml.ai.openaitextprocessor.functions;
 
-import org.springframework.ai.openai.api.OpenAiApi;
-import org.springframework.ai.tool.ToolCallback;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.tool.annotation.Tool;
-import org.springframework.ai.tool.function.FunctionToolCallback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Description;
@@ -12,26 +11,26 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Function;
-import java.util.*;
-import org.slf4j.*;
 
 @Description("""
-Lists directory contents or full file tree within secured base path.
-Input: 
-  path: Relative directory path (empty for root)
-  recursive: true for full tree, false for flat listing (default)
-Output: 
-  DirectoryListing(path, contents[FileInfo(name, type, size, modified, children[])])
-  Children present only in recursive mode
-Security: Blocks path traversal.
-Types: 'DIR' for directories, 'FILE' for files, 'SYMLINK' for symbolic links.
-Throws: SecurityException for invalid paths, NotDirectoryException if path not a folder.
-Examples: 
-  Flat: ('docs', false) → immediate children of docs/
-  Tree: ('src', true) → full recursive tree of src/
-""")
+        Lists directory contents or full file tree within secured base path.
+        Input: 
+          path: Relative directory path (empty for root)
+          recursive: true for full tree, false for flat listing (default)
+        Output: 
+          DirectoryListing(path, contents[FileInfo(name, type, size, modified, children[])])
+          Children present only in recursive mode
+        Security: Blocks path traversal.
+        Types: 'DIR' for directories, 'FILE' for files, 'SYMLINK' for symbolic links.
+        Throws: SecurityException for invalid paths, NotDirectoryException if path not a folder.
+        Examples: 
+          Flat: ('docs', false) → immediate children of docs/
+          Tree: ('src', true) → full recursive tree of src/
+        """)
 @Component("directoryLister")
 public class DirectoryLister implements Function<DirectoryLister.InputParams, DirectoryLister.DirectoryListing>, AiTool {
     private static final Logger log = LoggerFactory.getLogger(DirectoryLister.class);
@@ -82,11 +81,14 @@ public class DirectoryLister implements Function<DirectoryLister.InputParams, Di
             return new DirectoryListing(
                     resolvedPath.toString(),
                     contents,
-                     null
+                    null
             );
+        } catch (NoSuchFileException e) {
+            log.error("Directory listing failed: {}", input.path(), e);
+            return new DirectoryListing(null, null, "No such file");
         } catch (Exception e) {
             log.error("Directory listing failed: {}", input.path(), e);
-           return new DirectoryListing(null, null,  "%s: %s".formatted(e.getClass(), e.getMessage()));
+            return new DirectoryListing(null, null, "%s: %s".formatted(e.getClass(), e.getMessage()));
         }
     }
 
@@ -165,11 +167,13 @@ public class DirectoryLister implements Function<DirectoryLister.InputParams, Di
             long size,
             String modified,
             List<FileSystemNode> children  // Populated in recursive mode
-    ) {}
+    ) {
+    }
 
     public record DirectoryListing(
             String path,
             List<FileSystemNode> contents,
             String error
-    ) {}
+    ) {
+    }
 }

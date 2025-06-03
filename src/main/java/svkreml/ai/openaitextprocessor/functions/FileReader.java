@@ -1,4 +1,4 @@
-package svkreml.ai.openaitextprocessor.config.functions;
+package svkreml.ai.openaitextprocessor.functions;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Description;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.Function;
@@ -37,7 +38,11 @@ public class FileReader implements Function<FileReader.InputPath, FileReader.Con
             Path resolvedPath = resolveSecurePath(relativePath);
             log.info("Resolved path: {}", resolvedPath);
             return new Content(Files.readString(resolvedPath), null);
+        } catch (NoSuchFileException e) {
+            log.error(e.getMessage(), e);
+            return new Content(null, "No such file");
         } catch (Exception e) {
+            log.error(e.getMessage(), e);
             return new Content(null, "%s: %s".formatted(e.getClass(), e.getMessage()));
         }
     }
@@ -51,6 +56,9 @@ public class FileReader implements Function<FileReader.InputPath, FileReader.Con
         return normalized;
     }
 
-    public record InputPath(String path) {}
-    public record Content(String text, String error) {}
+    public record InputPath(String path) {
+    }
+
+    public record Content(String text, String error) {
+    }
 }

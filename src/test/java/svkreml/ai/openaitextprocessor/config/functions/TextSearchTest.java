@@ -3,6 +3,7 @@ package svkreml.ai.openaitextprocessor.config.functions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import svkreml.ai.openaitextprocessor.functions.TextSearch;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

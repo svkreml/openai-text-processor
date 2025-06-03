@@ -1,9 +1,8 @@
 package svkreml.ai.openaitextprocessor.utils;
 
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.Properties;
-import java.io.*;
 
 public class OrderedProperties extends Properties {
     private final LinkedHashMap<Object, Object> linkedMap = new LinkedHashMap<>();
