@@ -44,6 +44,10 @@ public class OpenAIConfig {
     private Boolean noThink;
     @Value("${spring.ai.openai.model:qwen3-8b}")
     private String model;
+    @Value("${spring.ai.openai.base-url:http://localhost:1234}")
+    private String baseUrl;
+    @Value("${spring.ai.openai.api-key:apikey}")
+    private String apikey;
 
     @Bean
     public RestClientCustomizer restClientCustomizer() {
@@ -76,8 +80,8 @@ public class OpenAIConfig {
         return ChatClient.builder(OpenAiChatModel.builder()
                         .openAiApi(
                                 OpenAiApi.builder()
-                                        .baseUrl("http://localhost:1234")
-                                        .apiKey("AI API KEY")
+                                        .baseUrl(baseUrl)
+                                        .apiKey(apikey)
                                         .build()
                         )
                         .build())

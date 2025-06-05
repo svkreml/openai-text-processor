@@ -15,11 +15,12 @@ import java.util.function.Function;
 @Slf4j
 @Description("""
         Handles file writing operations within secured base directory. 
-        Input: FileWriteRequest(path, content, [operation=OVERWRITE|INSERT_AT_LINE|REPLACE_AT_LINE], [line]). 
+        Input: FileWriteRequest(path, content, [operation=OVERWRITE|INSERT_AT_LINE|REPLACE_AT_LINE|APPEND_TO_THE_END], [line]). 
         Operations:
           - OVERWRITE: Replace entire file (default)
           - INSERT_AT_LINE: Insert content at specified line (1-indexed)
           - REPLACE_AT_LINE: Replace content at specified line (1-indexed)
+          - APPEND_TO_THE_END: Append content to the end of the file
         Output: WriteResult(success, message, [newPath]). 
         Security: Blocks path traversal, creates parent directories. 
         Throws: SecurityException for invalid paths, RuntimeException for I/O errors.
@@ -27,6 +28,7 @@ import java.util.function.Function;
           Overwrite: ('config.yaml', 'key: value') → success
           Insert at line: ('script.py', 'print("debug")', INSERT_AT_LINE, 5) → success
           Replace at line: ('index.html', '<div>New</div>', REPLACE_AT_LINE, 10) → replaces line 10
+          Append to end: ('logs.txt', 'New log entry', APPEND_TO_THE_END) → appends content
         """)
 @Component("fileWriter")
 public class FileWriter implements Function<FileWriter.FileWriteRequest, FileWriter.WriteResult> {
@@ -47,6 +49,7 @@ public class FileWriter implements Function<FileWriter.FileWriteRequest, FileWri
             return switch (request.operation()) {
                 case INSERT_AT_LINE -> insertAtLine(resolvedPath, request);
                 case REPLACE_AT_LINE -> replaceAtLine(resolvedPath, request);
+                case APPEND_TO_THE_END -> appendToEnd(resolvedPath, request);
                 default -> overwriteFile(resolvedPath, request);
             };
         } catch (NoSuchFileException e) {
@@ -65,6 +68,16 @@ public class FileWriter implements Function<FileWriter.FileWriteRequest, FileWri
         );
         log.info("Overwritten file: {}", path);
         return new WriteResult(true, "File overwritten successfully", path.toString());
+    }
+
+    private WriteResult appendToEnd(Path path, FileWriteRequest request) throws Exception {
+        // Create file if doesn't exist, append content to end
+        Files.writeString(path, request.content(),
+                StandardOpenOption.CREATE,
+                StandardOpenOption.APPEND
+        );
+        log.info("Appended to file: {}", path);
+        return new WriteResult(true, "Content appended successfully", path.toString());
     }
 
     private WriteResult insertAtLine(Path path, FileWriteRequest request) throws Exception {
@@ -136,7 +149,8 @@ public class FileWriter implements Function<FileWriter.FileWriteRequest, FileWri
     public enum WriteOperation {
         OVERWRITE,
         INSERT_AT_LINE,
-        REPLACE_AT_LINE
+        REPLACE_AT_LINE,
+        APPEND_TO_THE_END
     }
 
     public record FileWriteRequest(
